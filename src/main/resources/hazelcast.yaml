@@ -1,20 +1,11 @@
 hazelcast:
-  instance-name: local-instance
-  queue:
-    default:
-      statistics-enabled: true
-      max-size: 10
-      backup-count: 1
-      item-listeners:
-        - include-value: true
-          class-name: com.example.testcommoncache.ItemListener
-      queue-store:
-        class-name: com.hazelcast.QueueStoreImpl
-        properties:
-          binary: false
-          memory-limit: 1000
-          bulk-load: 500
-      priority-comparator-class-name: com.example.testcommoncache.PersonPriorityElementComparator
+  map:
+    person:
+      max-idle-seconds: 3600
+      eviction:
+        eviction-policy: LRU
+        max-size-policy: PER_NODE
+        size: 300
   network:
     join:
       multicast:

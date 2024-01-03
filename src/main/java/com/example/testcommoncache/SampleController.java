@@ -20,14 +20,14 @@ public class SampleController {
 
     @PostMapping
     Person createPerson(@RequestBody Person person) {
-        final Queue<Person> queue = this.hazelcastInstance.getQueue("default");
-        queue.add(person);
+        final IMap<String, Person> map = this.hazelcastInstance.getMap("person");
+        map.putIfAbsent(person.getName(), person);
         return person;
     }
 
-    @GetMapping()
-    Person getPerson(){
-        final Queue<Person> queue = this.hazelcastInstance.getQueue("default");
-        return queue.poll();
+    @GetMapping("/{name}")
+    Person getPerson(@PathVariable String name){
+        final IMap<String, Person> map = this.hazelcastInstance.getMap("person");
+        return map.get(name);
     }
 }
